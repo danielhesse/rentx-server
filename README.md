@@ -52,7 +52,6 @@ $ yarn
 ### :computer: How to connect
 
 This project is still under development
-URL Connection:
 
 ---
 
