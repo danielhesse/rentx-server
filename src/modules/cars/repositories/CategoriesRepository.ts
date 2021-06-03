@@ -1,18 +1,29 @@
 import { Category } from '../models/Category';
+import { ICategoriesRepository } from './ICategoriesRepository';
 
 interface ICreateCategoryDTO {
   name: string;
   description: string;
 }
 
-class CategoriesRepository {
+class CategoriesRepository implements ICategoriesRepository {
   private categories: Category[];
 
-  constructor() {
+  private static INSTANCE: CategoriesRepository;
+
+  private constructor() {
     this.categories = [];
   }
 
-  public create({ name, description }: ICreateCategoryDTO): Category {
+  public static getInstance(): CategoriesRepository {
+    if (!CategoriesRepository.INSTANCE) {
+      CategoriesRepository.INSTANCE = new CategoriesRepository();
+    }
+
+    return CategoriesRepository.INSTANCE;
+  }
+
+  public create({ name, description }: ICreateCategoryDTO): void {
     const category = new Category();
 
     Object.assign(category, {
@@ -22,8 +33,6 @@ class CategoriesRepository {
     });
 
     this.categories.push(category);
-
-    return category;
   }
 
   public list(): Category[] {
