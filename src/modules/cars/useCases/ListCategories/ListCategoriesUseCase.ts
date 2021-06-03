@@ -4,7 +4,7 @@ import { ICategoriesRepository } from '../../repositories/ICategoriesRepository'
 class ListCategoriesUseCase {
   constructor(private categoriesRepository: ICategoriesRepository) { }
 
-  public execute(): Category[] {
+  execute(): Category[] {
     const categories = this.categoriesRepository.list();
 
     return categories;
