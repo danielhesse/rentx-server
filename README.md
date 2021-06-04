@@ -18,6 +18,10 @@ RentX is a fictional car rental application that offers car rental services for 
 - [Prettier](https://prettier.io/)
 - [EditorConfig](https://editorconfig.org/)
 
+### Documentation
+
+- [Swagger](https://swagger.io/)
+
 ### Getting Started
 
 Before you begin, you will need to have the following tools installed on your machine:
