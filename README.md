@@ -26,7 +26,7 @@ Before you begin, you will need to have the following tools installed on your ma
 
 The project can be built directly with the Docker and Docker Compose, where the server container will be created with all the necessary configurations to start the project.
 - [Docker](https://www.docker.com/)
-- [Click here to install Docker and Docker Compose](https://www.notion.so/Docker-e-Docker-Compose-16771f2ceefe4a05a8c29df4ca49e97a)
+[Click here to install Docker and Docker Compose](https://www.notion.so/Docker-e-Docker-Compose-16771f2ceefe4a05a8c29df4ca49e97a)
 
 Also, it’s good to have an editor to work with the code like [VSCode](https://code.visualstudio.com/).
 
@@ -42,9 +42,6 @@ $ git clone https://github.com/daniel21h/rentx-server.git
 
 # Go into the repository
 $ cd rentx-server
-
-# Create container and install dependencies
-$ docker build -t rentx .
 
 # Run project in real-time
 $ docker-compose up
