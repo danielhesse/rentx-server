@@ -23,13 +23,10 @@ RentX is a fictional car rental application that offers car rental services for 
 Before you begin, you will need to have the following tools installed on your machine:
 - [Git](https://git-scm.com)
 
-The project can be built with npm or yarn, so choose one of the approach bellow in case you don't have any installed on your system.
 
-Npm is distributed with Node.js which means that when you download Node.js, you automatically get npm installed on your computer
-- [Node.js v14.16.0](https://nodejs.org/) or heigher.
-
-Yarn is a package manager built by Facebook Team and seems to be faster than npm in general.
-- [Yarn v1.22.5](https://yarnpkg.com/) or heigher.
+The project can be built directly with the Docker and Docker Compose, where the server container will be created with all the necessary configurations to start the project.
+- [Docker](https://www.docker.com/)
+- [Click here to install Docker and Docker Compose](https://www.notion.so/Docker-e-Docker-Compose-16771f2ceefe4a05a8c29df4ca49e97a)
 
 Also, it’s good to have an editor to work with the code like [VSCode](https://code.visualstudio.com/).
 
@@ -46,11 +43,16 @@ $ git clone https://github.com/daniel21h/rentx-server.git
 # Go into the repository
 $ cd rentx-server
 
-# Install dependencies
-$ yarn
+# Create container and install dependencies
+$ docker build -t rentx .
 
-# Run project
-$ yarn dev:server
+# Run project in real-time
+$ docker-compose up
+
+# or run project in background
+$ docker-compose up -d
+# To see logs
+$ docker logs rentx -f
 ```
 
 ### Documentation
