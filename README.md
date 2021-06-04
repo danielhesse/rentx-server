@@ -10,6 +10,7 @@ RentX is a fictional car rental application that offers car rental services for 
 - [Node.js](https://nodejs.org/en/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Express](https://expressjs.com/pt-br/)
+- [Multer](https://www.npmjs.com/package/multer)
 
 ### Code Standards
 
