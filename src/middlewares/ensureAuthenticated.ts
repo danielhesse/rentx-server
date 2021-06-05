@@ -24,14 +24,18 @@ export async function ensureAuthenticated(
   try {
     const decoded = verify(token, 'ac3ee9f8024e0ce1b14f996343ca15dc');
 
-    const { sub } = decoded as ITokenPayload;
+    const { sub: user_id } = decoded as ITokenPayload;
 
     const usersRepository = new UsersRepository();
-    const user = await usersRepository.findById(sub);
+    const user = await usersRepository.findById(user_id);
 
     if (!user) {
       throw new AppError('User does not exists!', 401);
     }
+
+    request.user = {
+      id: user_id,
+    };
 
     next();
   } catch {
