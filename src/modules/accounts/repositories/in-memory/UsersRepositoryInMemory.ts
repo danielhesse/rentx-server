@@ -1,25 +1,19 @@
-import { getRepository, Repository } from 'typeorm';
-
 import { ICreateUserDTO } from '../../dtos/ICreateUserDTO';
 import { IUpdateUserAvatarDTO } from '../../dtos/IUpdateUserAvatarDTO';
 import { User } from '../../entities/User';
 import { IUsersRepository } from '../IUsersRepository';
 
-class UsersRepository implements IUsersRepository {
-  private repository: Repository<User>;
-
-  constructor() {
-    this.repository = getRepository(User);
-  }
+class UsersRepositoryInMemory implements IUsersRepository {
+  private users: User[] = [];
 
   async findById(id: string): Promise<User> {
-    const user = await this.repository.findOne(id);
+    const user = this.users.find(user => user.id === id);
 
     return user;
   }
 
   async findByEmail(email: string): Promise<User> {
-    const user = await this.repository.findOne({ email });
+    const user = this.users.find(user => user.email === email);
 
     return user;
   }
@@ -30,14 +24,16 @@ class UsersRepository implements IUsersRepository {
     password,
     driver_license,
   }: ICreateUserDTO): Promise<User> {
-    const user = this.repository.create({
+    const user = new User();
+
+    Object.assign(user, {
       name,
       email,
       password,
       driver_license,
     });
 
-    await this.repository.save(user);
+    await this.users.push(user);
 
     return user;
   }
@@ -46,12 +42,12 @@ class UsersRepository implements IUsersRepository {
     user_id,
     avatar_file,
   }: IUpdateUserAvatarDTO): Promise<void> {
-    const user = await this.repository.findOne(user_id);
+    const user = this.users.find(user => user.id === user_id);
 
     user.avatar = avatar_file;
 
-    await this.repository.save(user);
+    this.users.push(user);
   }
 }
 
-export { UsersRepository };
+export { UsersRepositoryInMemory };
