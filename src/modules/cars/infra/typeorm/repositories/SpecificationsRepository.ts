@@ -8,30 +8,36 @@ import {
 import { Specification } from '../entities/Specification';
 
 class SpecificationsRepository implements ISpecificationsRepository {
-  private repository: Repository<Specification>;
+  private ormRepository: Repository<Specification>;
 
   constructor() {
-    this.repository = getRepository(Specification);
+    this.ormRepository = getRepository(Specification);
   }
 
   async create({
     name,
     description,
   }: ICreateSpecificationDTO): Promise<Specification> {
-    const specification = this.repository.create({
+    const specification = this.ormRepository.create({
       name,
       description,
     });
 
-    await this.repository.save(specification);
+    await this.ormRepository.save(specification);
 
     return specification;
   }
 
   async findByName(name: string): Promise<Specification> {
-    const specification = await this.repository.findOne({ name });
+    const specification = await this.ormRepository.findOne({ name });
 
     return specification;
+  }
+
+  async findByIds(ids: string[]): Promise<Specification[]> {
+    const specifications = await this.ormRepository.findByIds(ids);
+
+    return specifications;
   }
 }
 
