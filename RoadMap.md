@@ -13,10 +13,9 @@
 - [ ] Deve ser possível listar todas as categorias.
 
 **RN**
-- [ ] Não deve ser possível cadastrar um carro com uma placa já existente.
-- [ ] Não deve ser possível alterar a placa de um carro já cadastrado.
+- [x] Não deve ser possível cadastrar um carro com uma placa já existente.
+- [x] O carro deve ser cadastrado, por padrão, como disponível.
 - [ ] Não deve ser possível cadastrar um carro caso o usuário não seja um administrador.
-- [ ] O carro deve ser cadastrado, por padrão, como disponível.
 
 
 ### Listagem de Carros
