@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 
+import { CarsRepositoryInMemory } from '@modules/cars/repositories/in-memory/CarsRepositoryInMemory';
 import { DayJsDateprovider } from '@shared/container/providers/DateProvider/implementations/DayJsDateprovider';
 import { AppError } from '@shared/errors/AppError';
 
@@ -8,6 +9,7 @@ import { CreateRentalUseCase } from './CreateRentalUseCase';
 
 let createRentalUseCase: CreateRentalUseCase;
 let rentalsRepositoryInMemory: RentalsRepositoryInMemory;
+let carsRepositoryInMemory: CarsRepositoryInMemory;
 let dayJsDateprovider: DayJsDateprovider;
 
 describe('Create Rental', () => {
@@ -15,10 +17,12 @@ describe('Create Rental', () => {
 
   beforeEach(() => {
     rentalsRepositoryInMemory = new RentalsRepositoryInMemory();
+    carsRepositoryInMemory = new CarsRepositoryInMemory();
     dayJsDateprovider = new DayJsDateprovider();
     createRentalUseCase = new CreateRentalUseCase(
       rentalsRepositoryInMemory,
       dayJsDateprovider,
+      carsRepositoryInMemory,
     );
   });
 

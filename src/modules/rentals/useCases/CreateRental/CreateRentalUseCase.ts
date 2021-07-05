@@ -1,11 +1,11 @@
 import { inject, injectable } from 'tsyringe';
 
+import { ICarsRepository } from '@modules/cars/repositories/ICarsRepository';
+import { ICreateRentalDTO } from '@modules/rentals/dtos/ICreateRentalDTO';
+import { Rental } from '@modules/rentals/infra/typeorm/entities/Rental';
+import { IRentalsRepository } from '@modules/rentals/repositories/IRentalsRepository';
 import { IDateProvider } from '@shared/container/providers/DateProvider/IDateProvider';
 import { AppError } from '@shared/errors/AppError';
-
-import { ICreateRentalDTO } from '../dtos/ICreateRentalDTO';
-import { Rental } from '../infra/typeorm/entities/Rental';
-import { IRentalsRepository } from '../repositories/IRentalsRepository';
 
 @injectable()
 class CreateRentalUseCase {
@@ -15,6 +15,9 @@ class CreateRentalUseCase {
 
     @inject('DateProvider')
     private dateProvider: IDateProvider,
+
+    @inject('CarsRepository')
+    private carsRepository: ICarsRepository,
   ) { }
 
   async execute({
@@ -58,6 +61,8 @@ class CreateRentalUseCase {
       car_id,
       expected_return_date,
     });
+
+    await this.carsRepository.updateAvailable(car_id, false);
 
     return rental;
   }
