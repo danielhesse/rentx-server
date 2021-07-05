@@ -2,7 +2,10 @@ import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import { inject, injectable } from 'tsyringe';
 
+import auth from '@config/auth';
 import { IUsersRepository } from '@modules/accounts/repositories/IUsersRepository';
+import { IUsersTokensRepository } from '@modules/accounts/repositories/IUsersTokensRepository';
+import { IDateProvider } from '@shared/container/providers/DateProvider/IDateProvider';
 import { AppError } from '@shared/errors/AppError';
 
 interface IRequest {
@@ -16,6 +19,7 @@ interface IResponse {
     email: string;
   };
   token: string;
+  refresh_token: string;
 }
 
 @injectable()
@@ -23,6 +27,12 @@ class AuthenticateUserUseCase {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
+
+    @inject('UsersTokensRepository')
+    private usersTokensRepository: IUsersTokensRepository,
+
+    @inject('DateProvider')
+    private dateProvider: IDateProvider,
   ) { }
 
   async execute({ email, password }: IRequest): Promise<IResponse> {
@@ -41,17 +51,34 @@ class AuthenticateUserUseCase {
     }
 
     // Generate JWT
-    const token = sign({}, 'ac3ee9f8024e0ce1b14f996343ca15dc', {
+    const token = sign({}, auth.secret_token, {
       subject: user.id,
-      expiresIn: '1d',
+      expiresIn: auth.expires_in_token,
+    });
+
+    // Generate Refresh Token
+    const refresh_token = sign({ email }, auth.secret_refresh_token, {
+      subject: user.id,
+      expiresIn: auth.expires_in_refresh_token,
+    });
+
+    const expires_date = this.dateProvider.addDays(
+      auth.expires_day_refresh_token,
+    );
+
+    await this.usersTokensRepository.create({
+      user_id: user.id,
+      refresh_token,
+      expires_date,
     });
 
     const tokenReturn: IResponse = {
-      token,
       user: {
         name: user.name,
         email: user.email,
       },
+      token,
+      refresh_token,
     };
 
     return tokenReturn;
