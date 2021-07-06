@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import { carsRoutes } from './cars.routes';
 import { categoriesRoutes } from './categories.routes';
+import { passwordRoutes } from './password.routes';
 import { rentalsRoutes } from './rentals.routes';
 import { sessionsRoutes } from './sessions.routes';
 import { specificationsRoutes } from './specifications.routes';
@@ -15,5 +16,7 @@ routes.use('/users', usersRoutes);
 routes.use('/cars', carsRoutes);
 routes.use('/rentals', rentalsRoutes);
 routes.use('/sessions', sessionsRoutes);
+
+routes.use('/', passwordRoutes);
 
 export { routes };
