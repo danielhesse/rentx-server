@@ -14,7 +14,7 @@ const updateUserAvatarController = new UpdateUserAvatarController();
 
 usersRoutes.post('/', createUserController.handle);
 
-const uploadAvatar = multer(uploadConfig.upload('./tmp'));
+const uploadAvatar = multer(uploadConfig);
 
 usersRoutes.patch(
   '/avatar',

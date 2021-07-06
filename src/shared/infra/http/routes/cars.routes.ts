@@ -33,7 +33,7 @@ carsRoutes.post(
   createCarSpecificationController.handle,
 );
 
-const uploadCarImages = multer(uploadConfig.upload('./tmp'));
+const uploadCarImages = multer(uploadConfig);
 
 carsRoutes.post(
   '/images/:car_id',
