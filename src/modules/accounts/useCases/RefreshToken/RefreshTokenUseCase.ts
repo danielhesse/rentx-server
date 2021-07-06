@@ -15,11 +15,6 @@ interface IPayload {
   email: string;
 }
 
-interface ITokenReponse {
-  token: string;
-  refresh_token: string;
-}
-
 @injectable()
 class RefreshTokenUseCase {
   constructor(
@@ -30,7 +25,7 @@ class RefreshTokenUseCase {
     private dateProvider: IDateProvider,
   ) { }
 
-  async execute({ token }: IRequest): Promise<ITokenReponse> {
+  async execute({ token }: IRequest): Promise<string> {
     const { sub: user_id, email } = verify(
       token,
       auth.secret_refresh_token,
@@ -48,7 +43,7 @@ class RefreshTokenUseCase {
 
     await this.usersTokensRepository.deleteById(userToken.id);
 
-    const new_refresh_token = sign({ email }, auth.secret_refresh_token, {
+    const refresh_token = sign({ email }, auth.secret_refresh_token, {
       subject: user_id,
       expiresIn: auth.expires_in_refresh_token,
     });
@@ -59,20 +54,11 @@ class RefreshTokenUseCase {
 
     await this.usersTokensRepository.create({
       user_id,
-      refresh_token: new_refresh_token,
+      refresh_token,
       expires_date,
     });
 
-    // Regenerate JWT
-    const newToken = sign({}, auth.secret_token, {
-      subject: user_id,
-      expiresIn: auth.expires_in_token,
-    });
-
-    return {
-      token: newToken,
-      refresh_token: new_refresh_token,
-    };
+    return refresh_token;
   }
 }
 
