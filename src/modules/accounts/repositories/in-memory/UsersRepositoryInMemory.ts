@@ -33,7 +33,7 @@ class UsersRepositoryInMemory implements IUsersRepository {
       driver_license,
     });
 
-    await this.users.push(user);
+    this.users.push(user);
 
     return user;
   }
@@ -47,6 +47,10 @@ class UsersRepositoryInMemory implements IUsersRepository {
     user.avatar = avatar_file;
 
     this.users.push(user);
+  }
+
+  async save(data: any): Promise<void> {
+    throw new Error('Method not implemented');
   }
 }
 
