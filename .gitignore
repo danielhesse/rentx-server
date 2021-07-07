@@ -1,7 +1,10 @@
 node_modules/
-tmp/avatar/**
-tmp/cars/**
-coverage
+tmp/*
+coverage/
+dist/
 
-# Files
 .env
+.vscode
+
+!tmp/.gitkeep
+ormconfig.json
